@@ -19,7 +19,7 @@ npm run start
 
 # I. Functionality
 
-These requirements are implements by the pr
+These requirements are implements by the project
 
 1. The application allows users to create, update, delete TODO items: A user of the web application can use the interface to create, delete and complete a TODO item.
 
