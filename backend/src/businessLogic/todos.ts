@@ -5,9 +5,9 @@ import { CreateTodoRequest } from "../requests/CreateTodoRequest";
 import { UpdateTodoRequest } from "../requests/UpdateTodoRequest";
 import { TodoUpdate } from "../models/TodoUpdate";
 import { TodoAccess } from "../dataLayer/todoAccess";
-import { createLogger } from '../utils/logger'
+// import { createLogger } from '../utils/logger'
 
-const logger = createLogger('TodosAccess')
+// const logger = createLogger('TodosAccess')
 const todoAccess = new TodoAccess()
 
 export async function getAllTodo(userId: string): Promise<TodoItem[]> {
