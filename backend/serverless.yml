@@ -11,7 +11,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
- # lambdaHashingVersion: '20201221'
+  # lambdaHashingVersion: '20201221'
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'us-east-1'}
 
@@ -25,7 +25,10 @@ provider:
     PROJECT_NAME: udagram-todoapp-serveless
     TODOS_TABLE: udagram-todoapp-serveless-${self:provider.stage}
     S3_BUCKET_NAME: udagram-todoapp-serveless-${self:provider.stage}
-
+    # TODOS_CREATED_AT_INDEX: CreatedAtIndex
+    # SIGNED_URL_EXPIRATION: 300
+    # AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
+    # AUTH_0_SECRET_FIELD: auth0Secret
 
 custom:
   documentation:
@@ -81,8 +84,8 @@ functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  # TODO: Configure this function - 
-  # Provide iamRoleStatements property for performing Actions on DynamoDB
+# TODO: Configure this function - 
+# Provide iamRoleStatements property for performing Actions on DynamoDB
   GetTodos:
     handler: src/lambda/http/getTodos.handler
     events:
@@ -103,7 +106,6 @@ functions:
         Resource: 
           - '*'
 
-# Create todo
   CreateTodo:
     handler: src/lambda/http/createTodo.handler
     events:
@@ -130,8 +132,6 @@ functions:
         Resource: 
           - '*'
 
-
-# Update todo
   UpdateTodo:
     handler: src/lambda/http/updateTodo.handler
     events:
@@ -158,7 +158,6 @@ functions:
         Resource: 
           - '*'
 
-# Delete Todo
   DeleteTodo:
     handler: src/lambda/http/deleteTodo.handler
     events:
