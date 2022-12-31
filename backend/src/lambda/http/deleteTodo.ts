@@ -16,11 +16,11 @@ export const handler = middy(
     const deletedTodo = await deleteTodo(todoId, userId)
 
     return {
-      statusCode: 204,
+      statusCode: 200,
       // headers: {
       //   'Access-Control-Allow-Origin': '*'
       // },
-      body: deletedTodo
+      body: 'resource deleted successfully' + JSON.stringify(deletedTodo)
     }
   }
 )

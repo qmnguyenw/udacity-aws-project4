@@ -12,7 +12,7 @@ export const handler = middy(
     // TODO: Get all TODO items for a current user
     const userId = getUserId(event)
     const todos = await getAllTodo(userId)
-
+    console.log('List all todo:', JSON.stringify(todos))
     return {
       statusCode: 200,
       // headers: {
