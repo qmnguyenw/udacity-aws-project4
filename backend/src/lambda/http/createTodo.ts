@@ -11,8 +11,9 @@ export const handler = middy(
     console.log('Processing Event ', event)
     // TODO: Implement creating a new TODO item
     const newTodo: CreateTodoRequest = JSON.parse(event.body)
+    // TODO: Implement creating a new TODO item
     const userId = getUserId(event)
-    const todoItem = await createTodo(newTodo, userId)
+    const todoItem = await createTodo(userId, newTodo)
 
     return {
       statusCode: 201,
@@ -20,7 +21,7 @@ export const handler = middy(
         'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify({
-        item: todoItem
+        todoItem
       })
     }
   }

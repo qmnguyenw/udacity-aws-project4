@@ -1,8 +1,10 @@
 import { apiEndpoint } from '../config'
-import { Todo } from '../types/Todo';
-import { CreateTodoRequest } from '../types/CreateTodoRequest';
+import { Todo } from '../types/Todo'
+import { CreateTodoRequest } from '../types/CreateTodoRequest'
 import Axios from 'axios'
-import { UpdateTodoRequest } from '../types/UpdateTodoRequest';
+import { UpdateTodoRequest } from '../types/UpdateTodoRequest'
+
+const FileDownload = require('js-file-download')
 
 export async function getTodos(idToken: string): Promise<Todo[]> {
   console.log('Fetching todos')
@@ -10,8 +12,8 @@ export async function getTodos(idToken: string): Promise<Todo[]> {
   const response = await Axios.get(`${apiEndpoint}/todos`, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
-    },
+      Authorization: `Bearer ${idToken}`
+    }
   })
   console.log('Todos:', response.data)
   return response.data.items
@@ -21,12 +23,16 @@ export async function createTodo(
   idToken: string,
   newTodo: CreateTodoRequest
 ): Promise<Todo> {
-  const response = await Axios.post(`${apiEndpoint}/todos`,  JSON.stringify(newTodo), {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
+  const response = await Axios.post(
+    `${apiEndpoint}/todos`,
+    JSON.stringify(newTodo),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`
+      }
     }
-  })
+  )
   return response.data.item
 }
 
@@ -35,12 +41,16 @@ export async function patchTodo(
   todoId: string,
   updatedTodo: UpdateTodoRequest
 ): Promise<void> {
-  await Axios.patch(`${apiEndpoint}/todos/${todoId}`, JSON.stringify(updatedTodo), {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
+  await Axios.patch(
+    `${apiEndpoint}/todos/${todoId}`,
+    JSON.stringify(updatedTodo),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`
+      }
     }
-  })
+  )
 }
 
 export async function deleteTodo(
@@ -50,7 +60,7 @@ export async function deleteTodo(
   await Axios.delete(`${apiEndpoint}/todos/${todoId}`, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${idToken}`
+      Authorization: `Bearer ${idToken}`
     }
   })
 }
@@ -59,24 +69,59 @@ export async function getUploadUrl(
   idToken: string,
   todoId: string
 ): Promise<string> {
-  try {
-    const response = await Axios.post(`${apiEndpoint}/todos/${todoId}/attachment`, '', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${idToken}`
-        }
-      })
-    return response.data.uploadUrl
-  } catch(err){
-    console.error('get upload url', err)
-  }
-  return ''
+  const response = await Axios.post(
+    `${apiEndpoint}/todos/${todoId}/attachment`,
+    '',
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`
+      }
+    }
+  )
+  return response.data.uploadUrl
+}
+
+export async function getDownloadUrl(
+  atttachmentUrl: string,
+  idToken: string
+): Promise<string> {
+  console.log(`${apiEndpoint}/todos/download/${atttachmentUrl}`)
+  const response = await Axios.get(
+    `${apiEndpoint}/todos/download/${atttachmentUrl}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`
+      }
+    }
+  )
+  console.log(response)
+  return response.data
+}
+
+export async function deleteAttachment(
+  atttachmentUrl: string,
+  idToken: string
+) {
+  await Axios.delete(`${apiEndpoint}/todos/delete/${atttachmentUrl}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`
+    }
+  })
 }
 
 export async function uploadFile(uploadUrl: string, file: Buffer): Promise<void> {
-  try {
-    await Axios.put(uploadUrl, file)
-  } catch(err){
-    console.error('Upload file', err)
-  }  
+  await Axios.put(uploadUrl, file)
+}
+
+export function download(url: string, filename: string) {
+  Axios({
+    url,
+    method: 'GET',
+    responseType: 'blob'
+  }).then((response) => {
+    FileDownload(response.data, filename)
+  })
 }
