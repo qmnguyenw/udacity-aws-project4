@@ -1,11 +1,11 @@
 import { CustomAuthorizerEvent, CustomAuthorizerResult } from 'aws-lambda'
-import 'source-map-support/register'
-import { verify } from 'jsonwebtoken'
-import { createLogger } from '../../utils/logger'
 import Axios from 'axios'
+import { verify } from 'jsonwebtoken'
+import 'source-map-support/register'
 import { JwtPayload } from '../../auth/JwtPayload'
+import { createLogger } from '../../utils/logger'
 
-const logger = createLogger('auth');
+const logger = createLogger('auth-logger');
 
 // TODO: Provide a URL that can be used to download a certificate that can be used
 // to verify JWT token signature.

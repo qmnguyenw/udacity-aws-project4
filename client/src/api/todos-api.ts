@@ -1,8 +1,8 @@
 import { apiEndpoint } from '../config'
-import { Todo } from '../types/Todo';
-import { CreateTodoRequest } from '../types/CreateTodoRequest';
+import { Todo } from '../types/Todo'
+import { CreateTodoRequest } from '../types/CreateTodoRequest'
 import Axios from 'axios'
-import { UpdateTodoRequest } from '../types/UpdateTodoRequest';
+import { UpdateTodoRequest } from '../types/UpdateTodoRequest'
 
 export async function getTodos(idToken: string): Promise<Todo[]> {
   console.log('Fetching todos')
@@ -11,7 +11,7 @@ export async function getTodos(idToken: string): Promise<Todo[]> {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${idToken}`
-    },
+    }
   })
   console.log('Todos:', response.data)
   return response.data.items
@@ -59,24 +59,15 @@ export async function getUploadUrl(
   idToken: string,
   todoId: string
 ): Promise<string> {
-  try {
-    const response = await Axios.post(`${apiEndpoint}/todos/${todoId}/attachment`, '', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${idToken}`
-        }
-      })
-    return response.data.uploadUrl
-  } catch(err){
-    console.error('get upload url', err)
-  }
-  return ''
+  const response = await Axios.post(`${apiEndpoint}/todos/${todoId}/attachment`, '', {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    }
+  })
+  return response.data.uploadUrl
 }
 
 export async function uploadFile(uploadUrl: string, file: Buffer): Promise<void> {
-  try {
-    await Axios.put(uploadUrl, file)
-  } catch(err){
-    console.error('Upload file', err)
-  }  
+  await Axios.put(uploadUrl, file)
 }

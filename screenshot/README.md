@@ -63,6 +63,8 @@ That's right. I only defined all resources of this application in [the "serverle
 - It has a sufficient amount of log statements
 - It generates application level metrics
 
+![alt](./img-12.png)
+
 ![alt](./img-6.png)
 
 ![alt](./img-7.png)
