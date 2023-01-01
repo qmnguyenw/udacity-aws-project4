@@ -32,16 +32,29 @@ export class TodoAccess {
   }
 
   async createTodo(todo: TodoItem): Promise<TodoItem> {
-    logger.info('Creating todo: ' + todo)
-    await this.docClient.put({
+    logger.info('Creating todo: ' + JSON.stringify(todo))
+    await this.docClient
+      .put({
         TableName: this.todosTable,
         Item: todo
-      }).promise()
+      })
+      .promise()
     return todo as TodoItem
   }
 
-  async updateTodo(userId: string, todoId: string, updateTodo: TodoUpdate): Promise<TodoUpdate> {
-    logger.info('Updating todo from user: ' + userId + ' with todoId: ' + todoId + ', todo ' + updateTodo)
+  async updateTodo(
+    userId: string,
+    todoId: string,
+    updateTodo: TodoUpdate
+  ): Promise<TodoUpdate> {
+    logger.info(
+      'Updating todo from user: ' +
+        userId +
+        ' with todoId: ' +
+        todoId +
+        ', todo ' +
+        updateTodo
+    )
     var params = {
       TableName: this.todosTable,
       Key: {

@@ -25,29 +25,8 @@ export class AttachmentUtils {
   }
 
   async getAttachmentUrl(attachmentId: string): Promise<string> {
-    const attachmentUrl = `https://${this.s3BucketName}.s3Client.amazonaws.com/${attachmentId}`
+    const attachmentUrl = `https://${this.s3BucketName}.s3.amazonaws.com/${attachmentId}`
     return attachmentUrl
   }
 
-  async getAttachmentDownloadLink(attachmentId: string): Promise<string> {
-    return this.s3Client.getSignedUrl('getObject', {
-      Bucket: this.s3BucketName,
-      Key: attachmentId,
-      Expires: parseInt(this.urlExpiration)
-    })
-  }
-
-  async deleteAttachment(attachmentId: string): Promise<void> {
-    logger.info('attachmentId ' + JSON.stringify(attachmentId))
-    try {
-      return this.s3Client
-        .deleteObject({
-          Bucket: this.s3BucketName,
-          Key: attachmentId
-        })
-        .promise()
-    } catch (err) {
-      logger.error('Error occurs: ' + err)
-    }
-  }
 }
