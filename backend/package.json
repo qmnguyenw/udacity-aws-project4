@@ -8,11 +8,12 @@
     "aws-xray-sdk": "^2.2.0",
     "axios": "^0.18.0",
     "http-errors": "^1.7.2",
+    "jimp": "^0.6.4",
     "jsonwebtoken": "^8.5.1",
     "middy": "^0.27.0",
+    "serverless": "^2.21.1",
     "source-map-support": "^0.5.11",
     "uuid": "^3.3.2",
-    "jimp": "^0.6.4",
     "winston": "^3.2.1"
   },
   "devDependencies": {
